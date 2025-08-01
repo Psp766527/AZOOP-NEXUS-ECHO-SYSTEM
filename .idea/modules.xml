@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dsc-nextgen.iml" filepath="$PROJECT_DIR$/.idea/dsc-nextgen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Azoop-Echo-System.iml" filepath="$PROJECT_DIR$/.idea/Azoop-Echo-System.iml" />
     </modules>
   </component>
 </project>

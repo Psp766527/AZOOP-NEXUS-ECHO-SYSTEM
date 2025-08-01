@@ -10,10 +10,19 @@
         <option value="$PROJECT_DIR$/DSC-System-Health-Monitor/pom.xml" />
         <option value="$PROJECT_DIR$/DSC-Translation-Service/pom.xml" />
         <option value="$PROJECT_DIR$/api/pom.xml" />
+        <option value="$PROJECT_DIR$/ASI-Traffic-Manager/pom.xml" />
+        <option value="$PROJECT_DIR$/ASI-Nexus-Server/pom.xml" />
+        <option value="$PROJECT_DIR$/AZSIS-Nexus-SentinelCore/pom.xml" />
+        <option value="$PROJECT_DIR$/AZSIS-Nexus-Traffic-Manager/pom.xml" />
+        <option value="$PROJECT_DIR$/AZSIS-Nexus-Pigeon-Service/pom.xml" />
+        <option value="$PROJECT_DIR$/AZSIS-Nexus-Server/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="22" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="jpab" />
   </component>
 </project>
