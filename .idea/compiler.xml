@@ -37,16 +37,6 @@
         </processorPath>
         <module name="AZSIS-Nexus-SentinelCore" />
       </profile>
-      <profile name="Annotation profile for ASI-Traffic-Manager" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.0/spring-boot-configuration-processor-3.5.0.jar" />
-        </processorPath>
-        <module name="AZSIS-Nexus-Traffic-Manager" />
-      </profile>
       <profile name="Annotation profile for ASI-Nexus-Server" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -58,7 +48,24 @@
         <module name="AZSIS-Nexus-Pigeon-Service" />
         <module name="AZSIS-Nexus-Server" />
       </profile>
+      <profile name="Annotation profile for ASI-Traffic-Manager" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.0/spring-boot-configuration-processor-3.5.0.jar" />
+        </processorPath>
+        <module name="AZSIS-Nexus-Traffic-Manager" />
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ASI-Traffic-Manager" target="17" />
+      <module name="DSC-API-Gateway" target="17" />
+      <module name="DSC-Service-Registry" target="17" />
+      <module name="DSC-System-Health-Monitor" target="17" />
+      <module name="DSC-Translation-Service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -66,7 +73,11 @@
       <module name="AZSIS-Nexus-SentinelCore" options="-parameters" />
       <module name="AZSIS-Nexus-Server" options="-parameters" />
       <module name="AZSIS-Nexus-Traffic-Manager" options="-parameters" />
+      <module name="DSC-API-Gateway" options="-parameters" />
       <module name="DSC-Forceint" options="-parameters" />
+      <module name="DSC-Service-Registry" options="-parameters" />
+      <module name="DSC-System-Health-Monitor" options="-parameters" />
+      <module name="DSC-Translation-Service" options="-parameters" />
       <module name="api" options="-parameters" />
     </option>
   </component>

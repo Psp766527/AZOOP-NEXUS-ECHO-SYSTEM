@@ -1,4 +1,4 @@
-# AZOOP SOFTWARE INFO SYSTEM 🚛🌐
+# AZOOP SOFTWARE INFO SYSTEM 🌐
 
 [![Java](https://img.shields.io/badge/Java-17-blue.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring--Boot-3.2-green.svg)](https://spring.io/projects/spring-boot)
@@ -11,16 +11,16 @@
 
 **Last Updated**: July 09, 2025
 
-> A cloud-native microservices ecosystem for Digital Service Centre at Daimler Trucks Asia.
+> A cloud-native microservices ecosystem for Digital Service Centre at AZOOP SOFTWARE INFO SYSTEM.
 > A scalable, modular platform designed for seamless service discovery,
-> error localization, gateway routing, and system monitoring in enterprise-grade
+> msg localization, gateway routing, and system monitoring in enterprise-grade
 > digital infrastructures.
 
 ---
 
 ## 📦 Project Modules
 
-### 1. **dsc-service-registry** (Eureka Service Registry)
+### 1. **AZSIS-Nexus-Server** (Eureka Service Registry)
 - 📍 **Role**: Centralized Service Discovery using Spring Cloud Eureka.
 - 📦 `spring-cloud-starter-netflix-eureka-server`
 - 🌐 Access: `http://<host>:<port>/eureka/`
@@ -28,11 +28,11 @@
 
 ---
 
-### 2. **dsc-api-gateway** (API Gateway)
+### 2. **AZSIS-Nexus-Traffic-Manager** (API Gateway)
 - 📍 **Role**: Reactive API Gateway using Spring Cloud Gateway.
 - 🔀 Routes:
-  - `/localization/graphql` → `localization` service
-  - `/dsc/api/graphql/v1` → Dynamic Universal Router
+  - `/pigeon/graphql` → `pigeon` service
+  - `/azsis/api/graphql/v1` → Dynamic Universal Router
 - 🔐 Filter Chain:
   - Rate Limiting
   - Path Rewrite
@@ -40,14 +40,14 @@
 
 ---
 
-### 3. **dsc-system-health-monitor** (Monitoring / Health Core Service)
+### 3. **AZSIS-Nexus-SentinelCore** (Monitoring / Health Core Service)
 - 📍 **Role**: Provides shared health, metrics, and base services.
 - 📦 Includes actuator endpoints, circuit breakers, and possible alerting hooks.
 - 📈 the Monitors the health of all downstream services.
 
 ---
 
-### 4. **dsc-locale-translation** (Error & Locale Translation)
+### 4. **AZSIS-Nexus-Pigeon-Service** (Error & Locale Translation)
 - 📍 **Role**: Centralized i18n error message resolution engine.
 - 🗣 Supports GraphQL interface for querying error metadata.
 - 📘 Language fallback & resolution strategy integrated.
@@ -60,10 +60,10 @@ Each service is fully Dockerized:
 
 ```bash
 
-docker build -t dsc-api-gateway ./dsc-api-gateway
-docker build -t dsc-locale-translation ./dsc-locale-translation
-docker build -t dsc-service-registry ./dsc-service-registry
-docker build -t dsc-system-health-monitor ./dsc-system-health-monitor
+docker build -t AZSIS-Nexus-Traffic-Manager ./AZSIS-Nexus-Traffic-Manager
+docker build -t AZSIS-Nexus-Pigeon-Service ./AZSIS-Nexus-Pigeon-Service
+docker build -t AZSIS-Nexus-Server ./AZSIS-Nexus-Server
+docker build -t AZSIS-Nexus-SentinelCore ./AZSIS-Nexus-SentinelCore
 
 ```
 ---
@@ -75,14 +75,14 @@ docker build -t dsc-system-health-monitor ./dsc-system-health-monitor
                         |  Client (FE/API)  |
                         +---------+---------+
                                   |
-                        +---------v---------+
-                        |  dsc-api-gateway  |       
-                        |   (API Gateway)   <------------+
-                        +---------^---------+            |
+                        +-----------------v-----------+
+                        | AZSIS-Nexus-Traffic-Manager |       
+                        |   (API Gateway)             | <-
+                        +---------^-------------------+  |
                                   |                      | 
                                   |                      |
 +------------v------------+       V                      |
-|dsc-service-registry     <------->                      |
+|    Nexus-Server         <------->                      |
 |     (Eureka)            |                              |
 +-------------------------+          +-------------------+ 
                                      |                    
@@ -92,8 +92,8 @@ docker build -t dsc-system-health-monitor ./dsc-system-health-monitor
              +--------------+           +------------+
              |                                       |
 +------------v------------+              +------------v--------+
-|dsc-locale-translation   |              |                     |
-| (Error Locale Service)  |              |   Health Monitor    |
+|     Pigeon Service      |              |                     |
+|                         |              |   Health Monitor    |
 +-------------------------+              +---------------------+
 
 ```
@@ -131,9 +131,9 @@ docker build -t dsc-system-health-monitor ./dsc-system-health-monitor
 
 # 📬 Contact
 
-### Developer: Daimler Trucks Asia – Digital Software Center
+### Developer: AZOOP SOFTWARE INFO SYSTEM
 
-### Email: 
+### Email: kushwahpradeep531@gmail.com
 
-### Organization: Daimler Truck Asia."# AZOOP-NEXUS-Sentinel-Big-Screen-Code" 
+### Organization: AZOOP SOFTWARE INFO SYSTEM
 
