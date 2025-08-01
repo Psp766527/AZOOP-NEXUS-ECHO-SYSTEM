@@ -37,7 +37,7 @@
         </processorPath>
         <module name="AZSIS-Nexus-SentinelCore" />
       </profile>
-      <profile name="Annotation profile for ASI-Nexus-Server" enabled="true">
+      <profile name="Annotation profile for DSC-Translation-Service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -45,8 +45,19 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
         </processorPath>
-        <module name="AZSIS-Nexus-Pigeon-Service" />
         <module name="AZSIS-Nexus-Server" />
+      </profile>
+      <profile name="Annotation profile for AZSIS-Nexus-Pigeon-Service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.0/spring-boot-configuration-processor-3.5.0.jar" />
+        </processorPath>
+        <module name="AZSIS-Nexus-Pigeon-Service" />
       </profile>
       <profile name="Annotation profile for ASI-Traffic-Manager" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -54,6 +65,8 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.0/spring-boot-configuration-processor-3.5.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.0/spring-boot-configuration-processor-3.5.0.jar" />
         </processorPath>
         <module name="AZSIS-Nexus-Traffic-Manager" />

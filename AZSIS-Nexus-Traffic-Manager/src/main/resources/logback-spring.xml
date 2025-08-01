@@ -2,7 +2,7 @@
 <configuration scan="true">
 
     <!-- Dynamically resolve application name and log directory -->
-    <property name="APP_NAME" value="${spring.application.name:-DSC-API-Gateway}"/>
+    <property name="APP_NAME" value="${spring.application.name:-AZSIS-Nexus-Traffic-Manager}"/>
     <property name="LOG_DIR" value="logs/${APP_NAME}"/>
     <property name="LOG_LEVEL" value="${LOG_LEVEL:INFO}"/>
 

@@ -8,7 +8,7 @@ spring:
 
   apigateway:
     kafka:
-      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:127.0.0.1:31092,127.0.0.1:31093,127.0.0.1:31094}
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:127.0.0.1:9991,127.0.0.1:9992,127.0.0.1:9993}
       consumer:
         group-id: ${KAFKA_CONSUMER_GROUP:local-apigateway-group}
         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -29,10 +29,10 @@ spring:
         retry.MaxRetryAttempts: ${KAFKA_MAX_RETRIES:4}
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/dsc}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:dscpassword}
-    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL:jdbc:oracle:thin:@localhost:1521:ORCL}  # or your actual service name
+    username: ${DB_USERNAME:scott}
+    password: ${DB_PASSWORD:pass0928CS161036}
+    driver-class-name: oracle.jdbc.OracleDriver
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
@@ -40,9 +40,9 @@ spring:
       max-lifetime: 60000
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.OracleDialect
     hibernate:
-      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO:create-drop}
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO:update}  # Avoid create-drop for Oracle
     show-sql: true
     properties:
       hibernate:
@@ -50,6 +50,12 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  logging:
+    level:
+      org.springframework.cloud.gateway: DEBUG
+      com.daimlertrucksasia.it.dsc.gateway.filter: DEBUG
+      reactor.netty.http.client: DEBUG
+      reactor.netty.http.server: DEBUG
 
   loadBalancerURI: lb://
 
@@ -84,12 +90,7 @@ dynamic-routing:
   rest:
     strip-prefix: true
 
-  logging:
-    level:
-      org.springframework.cloud.gateway: DEBUG
-      com.daimlertrucksasia.it.dsc.gateway.filter: DEBUG
-      reactor.netty.http.client: DEBUG
-      reactor.netty.http.server: DEBUG
+
 
 eureka:
   client:

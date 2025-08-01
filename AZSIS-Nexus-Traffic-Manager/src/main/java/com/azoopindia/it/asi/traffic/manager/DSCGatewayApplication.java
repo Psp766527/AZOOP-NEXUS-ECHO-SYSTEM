@@ -23,9 +23,9 @@ import org.springframework.context.ApplicationContext;
  * </p>
  */
 @SpringBootApplication(scanBasePackages = {
-        "com.daimlertrucksasia.it.dsc.gateway",
-        "com.daimlertrucksasia.it.dsc.gateway.service",
-        "com.daimlertrucksasia.it.dsc.gateway.filter"
+        "com.azoopindia.it.asi.traffic.manager",
+        "com.azoopindia.it.asi.traffic.manager.service",
+        "com.azoopindia.it.asi.traffic.manager.filter"
 })
 @ConfigurationPropertiesScan
 @EnableDiscoveryClient
