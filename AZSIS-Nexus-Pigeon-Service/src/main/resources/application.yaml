@@ -6,8 +6,8 @@ localization:
 
 spring:
   application:
-    name: ${SPRING_APP_NAME:DSC-Translation-Service}
-  serviceId: ${SERVICE_ID:localization}
+    name: ${SPRING_APP_NAME:AZSIS-Nexus-Pigeon-Service}
+  serviceId: ${SERVICE_ID:PigeonService}
 
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
