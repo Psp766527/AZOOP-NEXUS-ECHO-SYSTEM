@@ -2,3 +2,5 @@
 !**/logs/
 *.log
 *.env
+/.idea/fastRequest/fastRequestCurrentProjectLocalConfig.xml
+/.idea/jpa-buddy.xml
