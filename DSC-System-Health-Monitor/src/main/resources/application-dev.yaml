@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: ${SPRING_APP_NAME:SystemHealth}
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://135.149.22.166:5432/postgres}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:dj6ilSWzNxHlaQnKWT3opbr6TMYXlIXtCw0KwB12HZFW2KO1r6tCQRMX78e9HSRU}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${DB_MAX_POOL_SIZE:10}
+      minimum-idle: ${DB_MIN_IDLE:5}
+      idle-timeout: ${DB_IDLE_TIMEOUT:30000}
+      max-lifetime: ${DB_MAX_LIFETIME:60000}
+      connection-timeout: ${DB_CONN_TIMEOUT:30000}
+      pool-name: ${DB_POOL_NAME:HikariCP}
+
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: ${QUARTZ_INIT_SCHEMA:never}
+    properties:
+      org:
+        quartz:
+          plugin:
+            myPlugin:
+              class: ${QUARTZ_PLUGIN_CLASS:com.daimlertrucksasia.it.dsc.healthmonitor.Shared.quartz.DSCQuartzPlugin}
+              someProperty: ${QUARTZ_PLUGIN_PROP:somiyaaa}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL_AUTO:update}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+server:
+  port: ${SERVER_PORT:9001}
+  address: ${SERVER_ADDRESS:0.0.0.0}
+
+dsc:
+  background-scheduler:
+    pool-size: ${SCHEDULER_POOL_SIZE:4}
+  quartz:
+    unit-name: ${DSC_UNIT_NAME:sentinelcore-pu}
+    stop-load-cache-job: ${DSC_STOP_LOAD_CACHE_JOB:true}
+
+logging:
+  level:
+    org.quartz: ${QUARTZ_LOG_LEVEL:DEBUG}

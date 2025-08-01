@@ -1,0 +1,78 @@
+server:
+  port: ${SERVER_PORT:9085}
+
+spring:
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/dsc}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:dscpassword}
+    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
+    hikari:
+      maximum-pool-size: ${DB_MAX_POOL_SIZE:10}
+      minimum-idle: ${DB_MIN_IDLE:5}
+      idle-timeout: ${DB_IDLE_TIMEOUT:30000}
+      max-lifetime: ${DB_MAX_LIFETIME:60000}
+
+  jpa:
+    database-platform: ${JPA_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:create-drop}
+    show-sql: ${JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        format_sql: ${JPA_FORMAT_SQL:true}
+        jdbc:
+          lob:
+            non_contextual_creation: ${JPA_LOB_CREATION:true}
+
+  localization:
+    kafka:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:127.0.0.1:31092,127.0.0.1:31093,127.0.0.1:31094}
+      consumer:
+        group-id: ${KAFKA_CONSUMER_GROUP_ID:local-localization-group}
+        key-deserializer: ${KAFKA_KEY_DESERIALIZER:org.apache.kafka.common.serialization.StringDeserializer}
+        value-deserializer: ${KAFKA_VALUE_DESERIALIZER:org.apache.kafka.common.serialization.StringDeserializer}
+        auto-offset-reset: ${KAFKA_AUTO_OFFSET_RESET:none}
+        enable-auto-commit: ${KAFKA_ENABLE_AUTO_COMMIT:true}
+        max-poll-records: ${KAFKA_MAX_POLL_RECORDS:500}
+        topic: ${KAFKA_CONSUMER_TOPIC:local-localization-dsc-tp}
+      producer:
+        key-serializer: ${KAFKA_KEY_SERIALIZER:org.apache.kafka.common.serialization.StringSerializer}
+        value-serializer: ${KAFKA_VALUE_SERIALIZER:org.apache.kafka.common.serialization.StringSerializer}
+        acks: ${KAFKA_ACKS:all}
+        retries: ${KAFKA_RETRIES:3}
+        batch.size: ${KAFKA_BATCH_SIZE:16384}
+        linger.ms: ${KAFKA_LINGER_MS:1}
+        buffer.memory: ${KAFKA_BUFFER_MEMORY:33554432}
+        retry.BackOffPeriod: ${KAFKA_RETRY_BACKOFF:2000}
+        retry.MaxRetryAttempts: ${KAFKA_RETRY_ATTEMPTS:4}
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:myRedisPassword}
+    timeout: ${REDIS_TIMEOUT:6000}
+    cache:
+      type: ${CACHE_TYPE:redis}
+
+  docker:
+    compose:
+      enabled: ${DOCKER_COMPOSE_ENABLED:false}
+
+  logging:
+    level:
+      org.springframework.graphql: ${GRAPHQL_LOG_LEVEL:TRACE}
+      org.springframework.boot.autoconfigure: ${AUTO_CONFIG_LOG_LEVEL:DEBUG}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://127.0.0.1:9087/eureka/}
+    register-with-eureka: ${EUREKA_REGISTER:true}
+    fetch-registry: ${EUREKA_FETCH:true}
+  instance:
+    prefer-ip-address: ${EUREKA_PREFER_IP:true}
+    instance-id: ${INSTANCE_ID:${spring.application.name}:${server.port}}
+    #instance-id: ${SPRING_APPLICATION_NAME:localization}:${SERVER_PORT:9088}
+

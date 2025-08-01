@@ -1,0 +1,153 @@
+# stateful set is utilized because the application performs any applicable database upgrade on startup.
+# so each instance must be started sequentially to avoid concurrent upgrade processes trying to occur.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  replicas: {{ .Values.container.replicas }}
+  revisionHistoryLimit: 5
+  podManagementPolicy: Parallel
+  serviceName: api-gateway
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: {{ .Values.acr.uri }}/{{ .Values.container.image.folder }}:{{ .Values.container.image.tag }}
+        ports:
+        - name: http
+          containerPort: 8080
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: api-gateway
+        env:
+        - name: jdbc.datasource.dsc.url
+          value: {{ .Values.jdbc.dsc.url }}
+        - name: jdbc.datasource.dsc.username
+          valueFrom:
+            secretKeyRef:
+              name: postgres.postgres.credentials.postgresql.acid.zalan.do
+              key: username
+        - name: jdbc.datasource.dsc.password
+          valueFrom:
+            secretKeyRef:
+              name: postgres.postgres.credentials.postgresql.acid.zalan.do
+              key: password
+        - name: redis.uri
+          valueFrom:
+            secretKeyRef:
+              name: backend-redis
+              key: uri
+              optional: true
+        - name: oidc.staff.client.id
+          valueFrom:
+            secretKeyRef:
+              name: backend-sso-staff
+              key: clientId
+              optional: true
+        - name: oidc.staff.client.secret
+          valueFrom:
+            secretKeyRef:
+              name: backend-sso-staff
+              key: clientSecret
+              optional: true
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              key: connectionString
+              name: backend-application-insights
+              optional: true
+        - name: jdbc.datasource.force.url
+          valueFrom:
+            secretKeyRef:
+              name: backend-force-jdbc
+              key: url
+              optional: true
+        - name: jdbc.datasource.force.username
+          valueFrom:
+            secretKeyRef:
+              name: backend-force-jdbc
+              key: username
+              optional: true
+        - name: jdbc.datasource.force.password
+          valueFrom:
+            secretKeyRef:
+              name: backend-force-jdbc
+              key: password
+              optional: true
+        - name: jdbc.datasource.forceCache.url
+          value: {{ .Values.jdbc.forceCache.url }}
+        - name: jdbc.datasource.forceCache.username
+          valueFrom:
+            secretKeyRef:
+              name: dsc.forceadmin.force-cache.credentials.postgresql.acid.zalan.do
+              key: username
+              optional: true
+        - name: jdbc.datasource.forceCache.password
+          valueFrom:
+            secretKeyRef:
+              name: dsc.forceadmin.force-cache.credentials.postgresql.acid.zalan.do
+              key: password
+              optional: true
+        - name: dtapi.KEY
+          valueFrom:
+            secretKeyRef:
+              name: backend-dturl-secret
+              key: dtapikey
+              optional: true
+        resources:
+          requests:
+            memory: "{{ .Values.container.requests.memory }}"
+            cpu: "{{ .Values.container.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.container.limits.memory }}"
+            cpu: "{{ .Values.container.limits.cpu }}"
+        volumeMounts:
+          - mountPath: /mnt/azure/
+            name: azure
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - bash
+                - -c
+                - date +"%d-%b-%Y %T     INFO [kubernetes] Stopping Container" > /proc/1/fd/1
+        # startupProbe:
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   failureThreshold: 5
+        #   timeoutSeconds: 5
+        #   httpGet:
+        #     path: /healthz
+        #     port: http
+      securityContext:
+        fsGroup: 33 # www-data id
+      volumes:
+      - name: azure
+        {{- if .Values.pvc.name }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.pvc.name }}
+        {{- else }}
+        emptyDir:
+          medium: Memory
+          sizeLimit: 50Mi
+        {{- end }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: api
+              namespaces: ['dsc']
+              topologyKey: kubernetes.io/hostname

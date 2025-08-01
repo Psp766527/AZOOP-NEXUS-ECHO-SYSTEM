@@ -1,0 +1,56 @@
+appInsights:
+  roleName: api
+  ignoreHttpUrlPaths: /healthz$,/subscribe$
+  includeDepsWhenLongerThan: 5s
+container:
+  image:
+    folder: dsc-api
+    tag: latest
+  limits:
+    cpu: 1500m
+    memory: 1536Mi
+  replicas: 2
+  requests:
+    cpu: 50m
+    memory: 128Mi
+hibernate:
+  dsc:
+    maxConnections: 10
+ingress:
+  path: /
+  hosts: ""
+oidc:
+  internalOrigin: ""
+pvc:
+  accessMode: ReadWriteMany
+  className: azurefile-csi
+  name: dsc-api
+  secretName: azure-storage-account
+  shareName: dsc-backend
+  storage: 10Gi
+  volumeName: dsc-api
+quartz:
+  clustered: true
+  delegate: PostgreSQLDelegate
+  loadSql: postgres
+security:
+  graphQLRestAuthRequired: false
+  newUsers:
+    active: false
+    grantAdmin: false
+hibernate:
+  dsc:
+    dialect: PostgreSQL10Dialect
+  forceCache:
+    dialect: PostgreSQL10Dialect
+jdbc:
+  dsc:
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://135.149.22.166:5432/dsc
+  forceCache:
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://force-cache.postgres.svc.cluster.local/force
+redisChannel: dsc-events
+dtapi:
+  url: https://as.api.daimlertruck.com/force_job_card_update/qa
+

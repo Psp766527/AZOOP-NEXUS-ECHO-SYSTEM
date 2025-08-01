@@ -1,0 +1,17 @@
+server:
+  port: ${SERVER_PORT:9087}
+
+spring:
+
+eureka:
+  client:
+    register-with-eureka: ${EUREKA_REGISTER_WITH_EUREKA:false}
+    fetch-registry: ${EUREKA_FETCH_REGISTRY:false}
+  server:
+    wait-time-in-ms-when-sync-empty: ${EUREKA_WAIT_TIME_IN_MS:0}
+    enable-self-preservation: ${EUREKA_SELF_PRESERVATION:false}
+  environment: ${EUREKA_ENVIRONMENT:qa}
+
+  logging:
+    level:
+      root: ${LOG_LEVEL_ROOT:INFO}

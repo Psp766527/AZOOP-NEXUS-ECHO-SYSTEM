@@ -1,0 +1,18 @@
+# persistent volume claim, primarily used for mounting the shared content between pods
+# in previews however, this is used to store the temporary database.
+{{- if .Values.pvc.name }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.pvc.name }}
+spec:
+  accessModes:
+  - {{ .Values.pvc.accessMode }}
+  storageClassName: {{ .Values.pvc.className }}
+  {{- if .Values.pvc.volumeName }}
+  volumeName: {{ .Values.pvc.volumeName }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.storage }}
+{{- end }}

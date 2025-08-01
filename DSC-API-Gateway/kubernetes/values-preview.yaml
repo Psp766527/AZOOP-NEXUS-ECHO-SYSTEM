@@ -1,0 +1,17 @@
+container:
+  requests:
+    cpu: 5m
+    memory: 64Mi
+  replicas: 1
+pvc:
+  accessMode: ReadWriteOnce
+  className: default
+  storage: 1Gi
+  volumeId: ""
+  volumeName: ""
+security: 
+  newUsers:
+    active: true
+    grantAdmin: true
+ingres:
+  hosts: dsc2d.cloud.tbintra.net

@@ -1,0 +1,29 @@
+container:
+  limits:
+    cpu: 2000m
+    memory: 2048Mi
+  replicas: 2
+  requests:
+    cpu: 50m
+    memory: 256Mi
+hibernate:
+  dsc:
+    maxConnections: 50
+denodo:
+  api:
+    rootURI: http://qa.mftbc.denodo.net:9090/denodo-graphql-service/graphql/dsc
+    maxConnections: 5
+oidc:
+  claimUserId: upn
+  loginHome: https://dsc-qa.cloud.tbintra.net
+  rootURI: https://login.microsoftonline.com/505cca53-5750-4134-9501-8d52d5df3cd1/v2.0/
+  serverScopes: offline_access,openid,profile
+pvc:
+  volumeId: 4562B64D-F65C-4A3A-A845-710282726EB4
+security: 
+  newUsers:
+    active: true
+dtapi:
+  URL: https://as.api.daimlertruck.com/force_job_card_update/qa
+ingress:
+  hosts: dsc-qa.cloud.tbintra.net

@@ -1,0 +1,21 @@
+acr:
+  uri: dscdev.azurecr.io
+appInsights:
+  roleName: dsc-api
+  includeDepsWhenLongerThan: 3s
+ingress:
+  path: /dsc/api
+  hosts: dsc2d.cloud.tbintra.net
+  corsAllowOrigin: http://localhost:3000, http://localhost:7080
+oidc:
+  claimUserId: preferred_username
+  internalOrigin: http://keycloak.keycloak.svc.cluster.local
+  loginHome: https://dsc2d.cloud.tbintra.net/dsc/app/
+  rootURI: https://dsc2d.cloud.tbintra.net/auth/realms/staff
+  serverScopes: email,offline_access,openid,profile,roles
+pvc:
+  volumeId: D661B17F-11D9-4835-B134-B3A5F7AE59AA
+security:
+  graphQLRestAuthRequired: false # allow FE to anonymously introspect the GraphQL API
+dtapi:
+  URL: https://as.api.daimlertruck.com/force_job_card_update/qa

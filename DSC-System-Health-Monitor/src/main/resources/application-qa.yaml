@@ -1,0 +1,62 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/dsc}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:dscpassword}
+    driver-class-name: org.postgresql.Driver
+
+  quartz:
+    job-store-type: ${QUARTZ_JOB_STORE_TYPE:jdbc}
+    jdbc:
+      initialize-schema: ${QUARTZ_INIT_SCHEMA:never}
+    properties:
+      org:
+        quartz:
+          plugin:
+            myPlugin:
+              class: ${QUARTZ_PLUGIN_CLASS:com.daimlertrucksasia.it.dsc.SentinelCore.Shared.quartz.DSCQuartzPlugin}
+              someProperty: ${QUARTZ_PLUGIN_PROPERTY:somiyaaa}
+    hikari:
+      maximum-pool-size: ${QUARTZ_HIKARI_MAX_POOL_SIZE:10}
+      minimum-idle: ${QUARTZ_HIKARI_MIN_IDLE:5}
+      idle-timeout: ${QUARTZ_HIKARI_IDLE_TIMEOUT:30000}
+      max-lifetime: ${QUARTZ_HIKARI_MAX_LIFETIME:60000}
+      connection-timeout: ${QUARTZ_HIKARI_CONN_TIMEOUT:30000}
+      pool-name: ${QUARTZ_HIKARI_POOL_NAME:HikariCP}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL_AUTO:update}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:8761/eureka/}
+    register-with-eureka: ${EUREKA_REGISTER:true}
+  instance:
+    prefer-ip-address: ${EUREKA_PREFER_IP:true}
+    instance-id: ${spring.application.name}:${server.port}
+
+server:
+  port: ${SERVER_PORT:9001}
+  address: ${SERVER_ADDRESS:0.0.0.0}
+
+dsc:
+  background-scheduler:
+    pool-size: ${SCHEDULER_POOL_SIZE:4}
+
+  quartz:
+    unit-name: ${DSC_QUARTZ_UNIT_NAME:sentinelcore-pu}
+    stop-load-cache-job: ${DSC_STOP_LOAD_CACHE_JOB:true}
+
+logging:
+  level:
+    org.quartz: ${QUARTZ_LOG_LEVEL:DEBUG}

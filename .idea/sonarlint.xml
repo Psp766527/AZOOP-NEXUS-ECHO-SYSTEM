@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SonarLintProjectSettings">
+    <option name="bindingEnabled" value="true" />
+    <option name="moduleMapping">
+      <map>
+        <entry key="DSC-API-Gateway" value="DSC-Nexus-Traffic-Manager" />
+        <entry key="DSC-Nexus-Locale" value="DSC-Nexus-Pigeon" />
+        <entry key="DSC-Service-Registry" value="DSC-Nexus-Server" />
+        <entry key="DSC-System-Health-Monitor" value="DSC-Nexus-SentinelCore" />
+        <entry key="DSC-Translation-Service" value="DSC-Locale-Translation" />
+      </map>
+    </option>
+    <option name="projectKey" value="DSC-Nexus-Pigeon" />
+    <option name="serverId" value="http://localhost:9000" />
+  </component>
+</project>

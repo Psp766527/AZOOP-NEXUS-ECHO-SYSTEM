@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: ${SPRING_APP_NAME:SystemHealth}
+  serviceId: ${SERVICE_ID:SystemHealth}
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}

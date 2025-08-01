@@ -1,0 +1,102 @@
+server:
+  port: ${SERVER_PORT:9088}
+  address: ${SERVER_ADDRESS:0.0.0.0}
+
+spring:
+  main:
+    web-application-type: reactive
+
+  apigateway:
+    kafka:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:127.0.0.1:31092,127.0.0.1:31093,127.0.0.1:31094}
+      consumer:
+        group-id: ${KAFKA_CONSUMER_GROUP:local-apigateway-group}
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        auto-offset-reset: ${KAFKA_AUTO_OFFSET_RESET:none}
+        enable-auto-commit: ${KAFKA_ENABLE_AUTO_COMMIT:true}
+        max-poll-records: ${KAFKA_MAX_POLL_RECORDS:500}
+        topic: ${KAFKA_TOPIC:local-apigateway-dsc-tp}
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+        acks: ${KAFKA_ACKS:all}
+        retries: ${KAFKA_RETRIES:3}
+        batch.size: ${KAFKA_BATCH_SIZE:16384}
+        linger.ms: ${KAFKA_LINGER_MS:1}
+        buffer.memory: ${KAFKA_BUFFER_MEMORY:33554432}
+        retry.BackOffPeriod: ${KAFKA_BACKOFF:2000}
+        retry.MaxRetryAttempts: ${KAFKA_MAX_RETRIES:4}
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/dsc}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:dscpassword}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 60000
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO:create-drop}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  loadBalancerURI: lb://
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: apigateway
+          uri: lb://${ROUTE_SERVICE_ID:apigateway}
+          predicates:
+            - Path=/apigateway/graphql
+          filters:
+            - name: RateLimiterFilter
+            - RewritePath=/apigateway/(?<segment>.*), /${segment}
+
+        - id: universal-rest-graphql-router
+          uri: lb://placeholder
+          predicates:
+            - Path=/**
+          filters:
+            - name: DynamicUniversalRoutingFilter
+              enabled: false
+
+dynamic-routing:
+  self-service-id: ${DYNAMIC_SELF_SERVICE_ID:apigateway}
+  gateway-prefix: /dsc/api/
+  graphql:
+    inbound-path: /dsc/api/graphql/v1
+    service-path: /graphql
+  rest:
+    strip-prefix: true
+
+  logging:
+    level:
+      org.springframework.cloud.gateway: DEBUG
+      com.daimlertrucksasia.it.dsc.gateway.filter: DEBUG
+      reactor.netty.http.client: DEBUG
+      reactor.netty.http.server: DEBUG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:9087/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${SPRING_APPLICATION_NAME:apigateway}:${SERVER_PORT:9088}

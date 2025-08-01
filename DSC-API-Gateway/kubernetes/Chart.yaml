@@ -1,0 +1,7 @@
+apiVersion: v2
+name: dsc-api
+description: Main API that is utilized by the official Front-end of DSC
+type: application
+version: 0.1.0
+appVersion: 4.0.12
+icon: data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==

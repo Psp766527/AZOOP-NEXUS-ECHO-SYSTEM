@@ -1,0 +1,17 @@
+server:
+  port: ${SERVER_PORT:8085}
+
+localization:
+  default-locale: ${DEFAULT_LOCALE:en}
+
+spring:
+  application:
+    name: ${SPRING_APP_NAME:DSC-Translation-Service}
+  serviceId: ${SERVICE_ID:localization}
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  docker:
+    compose:
+      enabled: ${DOCKER_COMPOSE_ENABLED:false}

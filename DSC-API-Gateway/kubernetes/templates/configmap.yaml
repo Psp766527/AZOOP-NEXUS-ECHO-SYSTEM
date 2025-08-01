@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway
+data:
+  # property-like keys; each key maps to a simple value
+  # database
+  hibernate.dsc.dialect: org.hibernate.dialect.{{ .Values.hibernate.dsc.dialect }}
+  hibernate.hikari.connectionTimeout: "30000"
+  hibernate.hikari.dsc.maximumPoolSize: "{{ .Values.hibernate.dsc.maxConnections }}"
+  hibernate.hikari.dsc.minimumIdle: "5"
+  hibernate.forceCache.dialect: org.hibernate.dialect.{{ .Values.hibernate.forceCache.dialect }}
+  javax.persistence.jdbc.dsc.driver: {{ .Values.jdbc.dsc.driver }}
+  javax.persistence.jdbc.forceCache.driver: {{ .Values.jdbc.forceCache.driver }}
+  hibernate.force.default_schema: SIEBEL
+  # File system
+  photos.persist.path: /mnt/azure/photos
+  # Redis
+  redis.clientTimeout: "3000"
+  redis.soTimeout: "5000"
+  redis.clientName: HOSTNAME
+  redis.channel: {{ .Values.redisChannel }}
+  # SSE
+  sse.keepalive: "55"
+  # Quartz Scheduler
+  org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.{{ .Values.quartz.delegate }}
+  org.quartz.jobStore.isClustered: "{{ .Values.quartz.clustered }}"
+  org.quartz.threadPool.threadCount: "3"
+  com.daimlertrucksasia.it.dsc.shared.quartz.QuartzFeature.loadTablesSqlFile: /org/quartz/impl/jdbcjobstore/tables_{{ .Values.quartz.loadSql }}.sql
+  # security (generic)
+  security.new_users.active: "{{ .Values.security.newUsers.active }}"
+  security.new_users.grantUserAdmin: "{{ .Values.security.newUsers.grantAdmin }}"
+  com.daimlertrucksasia.it.dsc.rest.GraphQLRest.authRequired: "{{ .Values.security.graphQLRestAuthRequired }}"
+  # SSO
+  oidc.staff.rootURI: {{ .Values.oidc.rootURI }}
+  oidc.staff.internalOrigin: "{{ .Values.oidc.internalOrigin }}"
+  oidc.staff.claim.firstName: given_name
+  oidc.staff.claim.lastName: family_name
+  oidc.staff.claim.userId: {{ .Values.oidc.claimUserId }}
+  oidc.staff.server.scopes: {{ .Values.oidc.serverScopes }}
+  oidc.staff.login.home: {{ .Values.oidc.loginHome }}
+  # ignore incoming forward port as nginx-ingress always sends 80/443 which is the default port for the scheme.
+  com.daimlertrucksasia.it.dsc.jaxrs.IgnoreForwardPort.enabled: "true"
+  # Application insights
+  APPLICATIONINSIGHTS_ROLE_NAME: {{ .Values.appInsights.roleName }}
+  OTEL_INSTRUMENTATION_RXJAVA_ENABLED: "false"
+  OTEL_DEPENDENCIES_ONLY_IF_LONGER_THAN: "{{ .Values.appInsights.includeDepsWhenLongerThan }}"
+  OTEL_IGNORE_HTTP_URL_PATHS: "{{ .Values.appInsights.ignoreHttpUrlPaths }}"
+  # Jersey
+  jersey.config.server.wadl.disableWadl: "true"
+  # dtapi
+  dtapi.URL: "{{ .Values.dtapi.URL }}"

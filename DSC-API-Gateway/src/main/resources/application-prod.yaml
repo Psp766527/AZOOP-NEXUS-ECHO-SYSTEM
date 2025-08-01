@@ -1,0 +1,115 @@
+server:
+  port: ${SERVER_PORT:8088}
+  address: ${SERVER_ADDRESS:0.0.0.0}
+
+spring:
+  main:
+    web-application-type: reactive
+
+  apigateway:
+    kafka:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:dev2-ng.servicebus.windows.net:9092,dev2-ng.servicebus.windows.net:9093}
+      consumer:
+        group-id: ${KAFKA_CONSUMER_GROUP:prod-apigateway-group}
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        auto-offset-reset: ${KAFKA_AUTO_OFFSET_RESET:none}
+        enable-auto-commit: ${KAFKA_ENABLE_AUTO_COMMIT:true}
+        max-poll-records: ${KAFKA_MAX_POLL_RECORDS:500}
+        topic: ${KAFKA_TOPIC:prod-apigateway-dsc-tp}
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+        acks: ${KAFKA_ACKS:all}
+        retries: ${KAFKA_RETRIES:3}
+        batch.size: ${KAFKA_BATCH_SIZE:16384}
+        linger.ms: ${KAFKA_LINGER_MS:1}
+        buffer.memory: ${KAFKA_BUFFER_MEMORY:33554432}
+        retry.BackOffPeriod: ${KAFKA_BACKOFF:2000}
+        retry.MaxRetryAttempts: ${KAFKA_MAX_RETRIES:4}
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://135.149.22.166:5432/postgres}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:dj6ilSWzNxHlaQnKWT3opbr6TMYXlIXtCw0KwB12HZFW2KO1r6tCQRMX78e9HSRU}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${DB_MAX_POOL:10}
+      minimum-idle: ${DB_MIN_IDLE:5}
+      idle-timeout: ${DB_IDLE_TIMEOUT:30000}
+      max-lifetime: ${DB_MAX_LIFETIME:60000}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: ${JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        format_sql: ${JPA_FORMAT_SQL:true}
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  loadBalancerURI: ${LOAD_BALANCER_URI:lb://}
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: ${GATEWAY_DISCOVERY_ENABLED:true}
+      routes:
+        - id: localization-service
+          uri: ${LOCALIZATION_URI:lb://localization}
+          predicates:
+            - Path=/localization/graphql
+          filters:
+            - name: RateLimiterFilter
+            - RewritePath=/localization/(?<segment>.*), /${segment}
+
+        - id: universal-rest-graphql-router
+          uri: ${UNIVERSAL_GRAPHQL_URI:lb://placeholder}
+          predicates:
+            - Path=/**
+          filters:
+            - name: DynamicUniversalRoutingFilter
+
+dynamic-routing:
+  self-service-id: ${SELF_SERVICE_ID:dscapigateway}
+  gateway-prefix: ${GATEWAY_PREFIX:/dsc/api/}
+
+  graphql:
+    inbound-path: ${GRAPHQL_INBOUND:/dsc/api/graphql/v1}
+    service-path: ${GRAPHQL_SERVICE:/graphql}
+
+  rest:
+    strip-prefix: ${STRIP_PREFIX:true}
+
+  logging:
+    level:
+      root: INFO  # Use WARN for even less logging
+      org.springframework.kafka: WARN
+      org.apache.kafka: WARN
+      org.springframework.kafka.listener.KafkaMessageListenerContainer: WARN
+      org.springframework.kafka.KafkaListenerEndpointContainer: WARN
+      org.springframework.kafka.core.KafkaTemplate: WARN
+      org.springframework.kafka.config: WARN
+      org.apache.kafka.clients.consumer: WARN
+      org.apache.kafka.clients.producer: WARN
+      org.apache.kafka.common.metrics: WARN
+      kafka.metrics.KafkaMetricsGroup: WARN
+
+  management:
+    metrics:
+      enable:
+        kafka: false  # ✅ Disable Kafka metrics collection
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8087/eureka/}
+    register-with-eureka: ${EUREKA_REGISTER:true}
+    fetch-registry: ${EUREKA_FETCH:true}
+
+  instance:
+    prefer-ip-address: true
+    instance-id: ${SPRING_APP_NAME}:${SERVER_PORT}

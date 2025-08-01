@@ -1,0 +1,24 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: postgres
+spec:
+  teamId: "it"
+  numberOfInstances: 1
+  postgresql:
+    version: "16"
+    parameters:
+  resources:
+    requests:
+      cpu: 5m
+      memory: 64Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  databases:
+    dsc: dscadmin
+  users:
+    dscadmin: []
+  volume:
+    size: 32Gi
+    storageClass: "managed" # to get deleted once the PR is closed

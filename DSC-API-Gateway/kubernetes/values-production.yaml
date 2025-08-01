@@ -1,0 +1,29 @@
+container:
+  image:
+    tag: "4.0.12"
+  limits:
+    cpu: 4000m
+    memory: 4096Mi
+  replicas: 3
+  requests:
+    cpu: 250m
+    memory: 756Mi
+hibernate:
+  dialect: PostgreSQL10Dialect
+  dsc:
+    maxConnections: 50
+oidc:
+  claimUserId: upn
+  loginHome: https://dsc.jpnap.corpintra.net
+  rootURI: https://login.microsoftonline.com/505cca53-5750-4134-9501-8d52d5df3cd1/v2.0/
+  serverScopes: email,offline_access,openid,profile
+pvc:
+  volumeId: 72F17A2F-29A6-46DE-A554-0CE735FC5BAD
+security: 
+  newUsers:
+    # true for now until the security mini app is in place
+    active: true
+dtapi:
+  URL: https://as.api.daimlertruck.com/force_job_card_update/prod
+ingress:
+  hosts: dsc.cloud.tbintra.net

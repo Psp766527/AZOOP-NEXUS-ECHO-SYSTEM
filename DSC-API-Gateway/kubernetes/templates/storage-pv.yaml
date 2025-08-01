@@ -1,0 +1,34 @@
+# a Persitent volume that is mapped to an azure file share, used to store content shared between pods
+{{- if and .Values.pvc.volumeId .Values.pvc.shareName .Values.pvc.secretName .Values.pvc.volumeName }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/provisioned-by: file.csi.azure.com
+  name: {{ .Values.pvc.volumeName }}
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: azurefile-csi
+  csi:
+    driver: file.csi.azure.com
+    readOnly: false
+    volumeHandle: {{ .Values.pvc.volumeId }}
+    volumeAttributes:
+      shareName: {{ .Values.pvc.shareName }}
+    nodeStageSecretRef:
+      name: {{ .Values.pvc.secretName }}
+      namespace: dsc
+  mountOptions:
+    - dir_mode=0777
+    - file_mode=0777
+    - uid=0
+    - gid=0
+    - mfsymlinks
+    - cache=strict
+    - nosharesock
+    - nobrl
+{{- end }}

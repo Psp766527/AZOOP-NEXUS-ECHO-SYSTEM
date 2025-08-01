@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:apigateway}
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}

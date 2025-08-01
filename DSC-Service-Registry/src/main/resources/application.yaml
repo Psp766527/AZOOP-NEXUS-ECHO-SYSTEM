@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ${SPRING_APP_NAME:registry-Server}
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
