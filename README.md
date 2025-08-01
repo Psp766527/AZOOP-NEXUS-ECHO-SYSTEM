@@ -1,4 +1,4 @@
-# DSC - Digital Service Centre NextGen 🚛🌐
+# AZOOP SOFTWARE INFO SYSTEM 🚛🌐
 
 [![Java](https://img.shields.io/badge/Java-17-blue.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring--Boot-3.2-green.svg)](https://spring.io/projects/spring-boot)
@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
   
-**Developed By**: Daimler Trucks Asia – Digital Software Center
+**Developed By**: AZOOP SOFTWARE INFO SYSTEM
 
 **Last Updated**: July 09, 2025
 
@@ -136,3 +136,4 @@ docker build -t dsc-system-health-monitor ./dsc-system-health-monitor
 ### Email: 
 
 ### Organization: Daimler Truck Asia."# AZOOP-NEXUS-Sentinel-Big-Screen-Code" 
+
